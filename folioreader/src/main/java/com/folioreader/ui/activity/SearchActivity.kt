@@ -140,7 +140,7 @@ class SearchActivity : AppCompatActivity(), OnItemClickListener {
         searchViewModel = ViewModelProviders.of(this).get(SearchViewModel::class.java)
         searchAdapterDataBundle = searchViewModel.liveAdapterDataBundle.value!!
 
-        val bundleFromFolioActivity = SearchResultData.searchResultIntent?.getBundleExtra(SearchAdapter.DATA_BUNDLE)
+        val bundleFromFolioActivity = SearchResultData.searchResultBundle
         if (bundleFromFolioActivity != null) {
             searchViewModel.liveAdapterDataBundle.value = bundleFromFolioActivity
             searchAdapterDataBundle = bundleFromFolioActivity
@@ -210,10 +210,9 @@ class SearchActivity : AppCompatActivity(), OnItemClickListener {
             BUNDLE_FIRST_VISIBLE_ITEM_INDEX,
             linearLayoutManager.findFirstVisibleItemPosition()
         )
-        intent.putExtra(SearchAdapter.DATA_BUNDLE, searchAdapterDataBundle)
         intent.putExtra(BUNDLE_SAVE_SEARCH_QUERY, searchView.query)
-        SearchResultData.searchResultIntent = intent
-        setResult(ResultCode.BACK_BUTTON_PRESSED.value, Intent())
+        SearchResultData.searchResultBundle = searchAdapterDataBundle
+        setResult(ResultCode.BACK_BUTTON_PRESSED.value, intent)
         finish()
     }
 
@@ -321,14 +320,14 @@ class SearchActivity : AppCompatActivity(), OnItemClickListener {
                     BUNDLE_FIRST_VISIBLE_ITEM_INDEX,
                     linearLayoutManager.findFirstVisibleItemPosition()
                 )
-                intent.putExtra(SearchAdapter.DATA_BUNDLE, searchAdapterDataBundle)
+               // intent.putExtra(SearchAdapter.DATA_BUNDLE, searchAdapterDataBundle)
                 intent.putExtra(
                     FolioActivity.EXTRA_SEARCH_ITEM,
                     viewHolder.searchLocator as Parcelable
                 )
                 intent.putExtra(BUNDLE_SAVE_SEARCH_QUERY, searchView.query)
-                SearchResultData.searchResultIntent = intent
-                setResult(ResultCode.ITEM_SELECTED.value, Intent())
+                SearchResultData.searchResultBundle = searchAdapterDataBundle
+                setResult(ResultCode.ITEM_SELECTED.value, intent)
                 finish()
             }
         }

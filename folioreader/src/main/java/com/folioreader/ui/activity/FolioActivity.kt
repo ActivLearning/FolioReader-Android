@@ -271,9 +271,11 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
 
         if (savedInstanceState != null) {
 
-            searchAdapterDataBundle = SearchResultData.searchResultIntent?.getBundleExtra(SearchAdapter.DATA_BUNDLE)
+            searchAdapterDataBundle = SearchResultData.searchResultBundle
             searchQuery =
-                SearchResultData.searchResultIntent?.getCharSequenceExtra(SearchActivity.BUNDLE_SAVE_SEARCH_QUERY)
+                savedInstanceState.getCharSequence(SearchActivity.BUNDLE_SAVE_SEARCH_QUERY)
+        }else{
+            SearchResultData.searchResultBundle = null
         }
 
         mBookId = intent.getStringExtra(FolioReader.EXTRA_BOOK_ID)
@@ -833,12 +835,12 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
             if (resultCode == Activity.RESULT_CANCELED)
                 return
 
-            searchAdapterDataBundle = SearchResultData.searchResultIntent?.getBundleExtra(SearchAdapter.DATA_BUNDLE)
-            searchQuery = SearchResultData.searchResultIntent?.getCharSequenceExtra(SearchActivity.BUNDLE_SAVE_SEARCH_QUERY)
+            searchAdapterDataBundle = SearchResultData.searchResultBundle
+            searchQuery = data!!.getCharSequenceExtra(SearchActivity.BUNDLE_SAVE_SEARCH_QUERY)
 
             if (resultCode == SearchActivity.ResultCode.ITEM_SELECTED.value) {
 
-                searchLocator = SearchResultData.searchResultIntent?.getParcelableExtra(EXTRA_SEARCH_ITEM)
+                searchLocator = data.getParcelableExtra(EXTRA_SEARCH_ITEM)
                 // In case if SearchActivity is recreated due to screen rotation then FolioActivity
                 // will also be recreated, so mFolioPageViewPager might be null.
                 if (mFolioPageViewPager == null) return

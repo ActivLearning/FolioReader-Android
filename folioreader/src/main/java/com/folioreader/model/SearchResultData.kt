@@ -1,6 +1,6 @@
 package com.folioreader.model
-import android.content.Intent
+import android.os.Bundle
 
 object SearchResultData{
-    var searchResultIntent : Intent? = null
+    var searchResultBundle : Bundle? = null
 }
