@@ -51,6 +51,7 @@ import com.folioreader.FolioReader
 import com.folioreader.R
 import com.folioreader.model.DisplayUnit
 import com.folioreader.model.HighlightImpl
+import com.folioreader.model.SearchResultData
 import com.folioreader.model.event.MediaOverlayPlayPauseEvent
 import com.folioreader.model.locators.ReadLocator
 import com.folioreader.model.locators.SearchLocator
@@ -425,7 +426,6 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
             val intent = Intent(this, SearchActivity::class.java)
             intent.putExtra(SearchActivity.BUNDLE_SPINE_SIZE, spine?.size ?: 0)
             intent.putExtra(SearchActivity.BUNDLE_SEARCH_URI, searchUri)
-            intent.putExtra(SearchAdapter.DATA_BUNDLE, searchAdapterDataBundle)
             intent.putExtra(SearchActivity.BUNDLE_SAVE_SEARCH_QUERY, searchQuery)
             startActivityForResult(intent, RequestCode.SEARCH.value)
             return true
@@ -832,12 +832,12 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
             if (resultCode == Activity.RESULT_CANCELED)
                 return
 
-            searchAdapterDataBundle = data!!.getBundleExtra(SearchAdapter.DATA_BUNDLE)
-            searchQuery = data.getCharSequenceExtra(SearchActivity.BUNDLE_SAVE_SEARCH_QUERY)
+            searchAdapterDataBundle = SearchResultData.searchResultIntent?.getBundleExtra(SearchAdapter.DATA_BUNDLE)
+            searchQuery = SearchResultData.searchResultIntent?.getCharSequenceExtra(SearchActivity.BUNDLE_SAVE_SEARCH_QUERY)
 
             if (resultCode == SearchActivity.ResultCode.ITEM_SELECTED.value) {
 
-                searchLocator = data.getParcelableExtra(EXTRA_SEARCH_ITEM)
+                searchLocator = SearchResultData.searchResultIntent?.getParcelableExtra(EXTRA_SEARCH_ITEM)
                 // In case if SearchActivity is recreated due to screen rotation then FolioActivity
                 // will also be recreated, so mFolioPageViewPager might be null.
                 if (mFolioPageViewPager == null) return

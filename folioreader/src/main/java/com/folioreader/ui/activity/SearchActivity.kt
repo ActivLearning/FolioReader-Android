@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.folioreader.Config
 import com.folioreader.R
+import com.folioreader.model.SearchResultData
 import com.folioreader.model.locators.SearchLocator
 import com.folioreader.ui.adapter.ListViewType
 import com.folioreader.ui.adapter.OnItemClickListener
@@ -139,7 +140,7 @@ class SearchActivity : AppCompatActivity(), OnItemClickListener {
         searchViewModel = ViewModelProviders.of(this).get(SearchViewModel::class.java)
         searchAdapterDataBundle = searchViewModel.liveAdapterDataBundle.value!!
 
-        val bundleFromFolioActivity = intent.getBundleExtra(SearchAdapter.DATA_BUNDLE)
+        val bundleFromFolioActivity = SearchResultData.searchResultIntent?.getBundleExtra(SearchAdapter.DATA_BUNDLE)
         if (bundleFromFolioActivity != null) {
             searchViewModel.liveAdapterDataBundle.value = bundleFromFolioActivity
             searchAdapterDataBundle = bundleFromFolioActivity
@@ -211,7 +212,8 @@ class SearchActivity : AppCompatActivity(), OnItemClickListener {
         )
         intent.putExtra(SearchAdapter.DATA_BUNDLE, searchAdapterDataBundle)
         intent.putExtra(BUNDLE_SAVE_SEARCH_QUERY, searchView.query)
-        setResult(ResultCode.BACK_BUTTON_PRESSED.value, intent)
+        SearchResultData.searchResultIntent = intent
+        setResult(ResultCode.BACK_BUTTON_PRESSED.value, Intent())
         finish()
     }
 
@@ -325,7 +327,8 @@ class SearchActivity : AppCompatActivity(), OnItemClickListener {
                     viewHolder.searchLocator as Parcelable
                 )
                 intent.putExtra(BUNDLE_SAVE_SEARCH_QUERY, searchView.query)
-                setResult(ResultCode.ITEM_SELECTED.value, intent)
+                SearchResultData.searchResultIntent = intent
+                setResult(ResultCode.ITEM_SELECTED.value, Intent())
                 finish()
             }
         }
