@@ -270,9 +270,10 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
         this.savedInstanceState = savedInstanceState
 
         if (savedInstanceState != null) {
-            searchAdapterDataBundle = savedInstanceState.getBundle(SearchAdapter.DATA_BUNDLE)
+
+            searchAdapterDataBundle = SearchResultData.searchResultIntent?.getBundleExtra(SearchAdapter.DATA_BUNDLE)
             searchQuery =
-                savedInstanceState.getCharSequence(SearchActivity.BUNDLE_SAVE_SEARCH_QUERY)
+                SearchResultData.searchResultIntent?.getCharSequenceExtra(SearchActivity.BUNDLE_SAVE_SEARCH_QUERY)
         }
 
         mBookId = intent.getStringExtra(FolioReader.EXTRA_BOOK_ID)
@@ -1016,7 +1017,6 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
         this.outState = outState
 
         outState.putBoolean(BUNDLE_DISTRACTION_FREE_MODE, distractionFreeMode)
-        outState.putBundle(SearchAdapter.DATA_BUNDLE, searchAdapterDataBundle)
         outState.putCharSequence(SearchActivity.BUNDLE_SAVE_SEARCH_QUERY, searchQuery)
     }
 
