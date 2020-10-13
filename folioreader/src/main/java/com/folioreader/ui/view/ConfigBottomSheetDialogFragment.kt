@@ -193,8 +193,7 @@ class ConfigBottomSheetDialogFragment : BottomSheetDialogFragment() {
         )
 
         val fontIndex = adapter.fontKeyList.indexOf(config.font)
-        view_config_font_spinner.setSelection(if (fontIndex < 0) 0 else fontIndex)
-
+        view_config_font_spinner.setSelection(if (fontIndex < 0) 0 else fontIndex,true)
         view_config_font_spinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
