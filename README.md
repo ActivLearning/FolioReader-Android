@@ -60,6 +60,8 @@ dependencies {
     ...
 }
 ```
+### Published
+Access this link https://jitpack.io/#ActivLearning/FolioReader-Android and then wait the build process is completed.
 
 ### Enable Multidex support
 
