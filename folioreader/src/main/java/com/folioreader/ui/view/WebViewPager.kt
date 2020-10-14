@@ -71,7 +71,9 @@ class WebViewPager : ViewPager {
                 Log.v(LOG_TAG, "-> onPageSelected -> $position")
             }
 
-            override fun onPageScrollStateChanged(state: Int) {}
+            override fun onPageScrollStateChanged(state: Int) {
+                Log.v(LOG_TAG, "-> onPageScrollStateChanged -> $state")
+            }
         })
     }
 

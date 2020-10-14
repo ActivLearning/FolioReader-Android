@@ -30,6 +30,7 @@ public class Config implements Parcelable {
     public static final String CONFIG_ALLOWED_DIRECTION = "allowed_direction";
     public static final String CONFIG_DIRECTION = "direction";
     public static final String CONFIG_REMAINING_INDICATOR = "show_remaining_indicator";
+    public static final String CONFIG_ALLOWED_SYSTEM_UI = "allowed_system_ui";
     private static final AllowedDirection DEFAULT_ALLOWED_DIRECTION = AllowedDirection.ONLY_VERTICAL;
     private static final Direction DEFAULT_DIRECTION = Direction.VERTICAL;
     private static final int DEFAULT_THEME_COLOR_INT =
@@ -45,7 +46,7 @@ public class Config implements Parcelable {
     private AllowedDirection allowedDirection = DEFAULT_ALLOWED_DIRECTION;
     private Direction direction = DEFAULT_DIRECTION;
     private boolean showRemainingIndicator = false;
-
+    private  boolean allowedSystemUI = false;
     /**
      * Reading modes available
      */
@@ -89,6 +90,7 @@ public class Config implements Parcelable {
         bundle.putString(CONFIG_ALLOWED_DIRECTION, allowedDirection.toString());
         bundle.putString(CONFIG_DIRECTION, direction.toString());
         bundle.putBoolean(CONFIG_REMAINING_INDICATOR, showRemainingIndicator);
+        bundle.putBoolean(CONFIG_ALLOWED_SYSTEM_UI,allowedSystemUI);
         dest.writeBundle(bundle);
     }
 
@@ -115,6 +117,7 @@ public class Config implements Parcelable {
                         getBundleItem(bundle, CONFIG_DIRECTION, DEFAULT_DIRECTION.toString())
                 );
                 showRemainingIndicator = getBundleItem(bundle, CONFIG_REMAINING_INDICATOR, showRemainingIndicator);
+                allowedSystemUI =getBundleItem(bundle,CONFIG_ALLOWED_SYSTEM_UI,allowedSystemUI);
             }
         } catch (Exception e) {
             System.out.println("Failed to parse configuration, likely an old version.");
@@ -132,6 +135,7 @@ public class Config implements Parcelable {
         allowedDirection = DEFAULT_ALLOWED_DIRECTION;
         direction = DEFAULT_DIRECTION;
         showRemainingIndicator = false;
+        allowedSystemUI = false;
     }
 
     @SuppressWarnings("unchecked")
@@ -161,6 +165,7 @@ public class Config implements Parcelable {
                 getJsonItem(obj, CONFIG_DIRECTION, DEFAULT_DIRECTION.toString())
         );
         showRemainingIndicator = getJsonItem(obj, CONFIG_REMAINING_INDICATOR, false);
+        allowedSystemUI = getJsonItem(obj,CONFIG_ALLOWED_SYSTEM_UI,false);
     }
 
     @SuppressWarnings("unchecked")
@@ -386,6 +391,11 @@ public class Config implements Parcelable {
         this.showRemainingIndicator = showRemainingIndicator;
     }
 
+    public  boolean isAllowedSystemUI(){return allowedSystemUI;}
+    public void setAllowedSystemUI(boolean allowedSystemUI){
+        this.allowedSystemUI = allowedSystemUI;
+    }
+
     @Override
     public String toString() {
         return "Config{" +
@@ -398,6 +408,7 @@ public class Config implements Parcelable {
                 ", allowedDirection=" + allowedDirection +
                 ", direction=" + direction +
                 ", remainingIndicator=" + showRemainingIndicator +
+                ", allowedSystemUI=" + allowedSystemUI +
                 '}';
     }
 }
