@@ -59,13 +59,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#888888"
-            android:textSize="7sp" />
+            android:textSize="8sp" />
 
         <TextView
             android:id="@+id/pagesLeft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#bbbbbb"
-            android:textSize="8sp" />
+            android:textSize="9sp" />
     </LinearLayout>
 </RelativeLayout>

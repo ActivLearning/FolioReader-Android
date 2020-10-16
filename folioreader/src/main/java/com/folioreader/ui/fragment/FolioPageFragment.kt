@@ -739,7 +739,7 @@ class FolioPageFragment : Fragment(),
             }else {
                 if (activity is FolioActivity){
                     val folioActivity = activity as FolioActivity
-                    mMinutesLeftTextView!!.text = "Chapter ${folioActivity.currentChapterIndex + 1} - "
+//                    mMinutesLeftTextView!!.text = "Current Chapter  - "     //${folioActivity.currentChapterIndex + 1}
                     mPagesLeftTextView!!.text = webViewPager!!.getPageProgress()
                 }
             }
