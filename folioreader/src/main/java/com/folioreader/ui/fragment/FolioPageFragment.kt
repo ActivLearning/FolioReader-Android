@@ -34,6 +34,7 @@ import com.folioreader.model.event.*
 import com.folioreader.model.locators.ReadLocator
 import com.folioreader.model.locators.SearchLocator
 import com.folioreader.model.sqlite.HighLightTable
+import com.folioreader.ui.activity.FolioActivity
 import com.folioreader.ui.activity.FolioActivityCallback
 import com.folioreader.ui.base.HtmlTask
 import com.folioreader.ui.base.HtmlTaskCallback
@@ -702,38 +703,47 @@ class FolioPageFragment : Fragment(),
 
     private fun updatePagesLeftText(scrollY: Int) {
         try {
-            val currentPage = (ceil(scrollY.toDouble() / mWebview!!.webViewHeight) + 1).toInt()
-            val totalPages =
-                ceil(mWebview!!.contentHeightVal.toDouble() / mWebview!!.webViewHeight).toInt()
-            val pagesRemaining = totalPages - currentPage
-            val pagesRemainingStrFormat = if (pagesRemaining > 1)
-                getString(R.string.pages_left)
-            else
-                getString(R.string.page_left)
-            val pagesRemainingStr = String.format(
-                Locale.US,
-                pagesRemainingStrFormat, pagesRemaining
-            )
+            val showProgressWithTime = false;
+            if (showProgressWithTime){
+                val currentPage = (ceil(scrollY.toDouble() / mWebview!!.webViewHeight) + 1).toInt()
+                val totalPages =
+                    ceil(mWebview!!.contentHeightVal.toDouble() / mWebview!!.webViewHeight).toInt()
+                val pagesRemaining = totalPages - currentPage
+                val pagesRemainingStrFormat = if (pagesRemaining > 1)
+                    getString(R.string.pages_left)
+                else
+                    getString(R.string.page_left)
+                val pagesRemainingStr = String.format(
+                    Locale.US,
+                    pagesRemainingStrFormat, pagesRemaining
+                )
 
-            val minutesRemaining =
-                ceil((pagesRemaining * mTotalMinutes).toDouble() / totalPages).toInt()
-            val minutesRemainingStr: String
-            minutesRemainingStr = if (minutesRemaining > 1) {
-                String.format(
-                    Locale.US, getString(R.string.minutes_left),
-                    minutesRemaining
-                )
-            } else if (minutesRemaining == 1) {
-                String.format(
-                    Locale.US, getString(R.string.minute_left),
-                    minutesRemaining
-                )
-            } else {
-                getString(R.string.less_than_minute)
+                val minutesRemaining =
+                    ceil((pagesRemaining * mTotalMinutes).toDouble() / totalPages).toInt()
+                val minutesRemainingStr: String
+                minutesRemainingStr = if (minutesRemaining > 1) {
+                    String.format(
+                        Locale.US, getString(R.string.minutes_left),
+                        minutesRemaining
+                    )
+                } else if (minutesRemaining == 1) {
+                    String.format(
+                        Locale.US, getString(R.string.minute_left),
+                        minutesRemaining
+                    )
+                } else {
+                    getString(R.string.less_than_minute)
+                }
+                mMinutesLeftTextView!!.text = minutesRemainingStr
+                mPagesLeftTextView!!.text = pagesRemainingStr
+            }else {
+                if (activity is FolioActivity){
+                    val folioActivity = activity as FolioActivity
+                    mMinutesLeftTextView!!.text = "Chapter ${folioActivity.currentChapterIndex + 1} - "
+                    mPagesLeftTextView!!.text = webViewPager!!.getPageProgress()
+                }
             }
 
-            mMinutesLeftTextView!!.text = minutesRemainingStr
-            mPagesLeftTextView!!.text = pagesRemainingStr
         } catch (exp: java.lang.ArithmeticException) {
             Log.e("divide error", exp.toString())
         } catch (exp: IllegalStateException) {
