@@ -10,6 +10,7 @@ import androidx.core.view.GestureDetectorCompat
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.folioreader.R
+import java.util.*
 
 class WebViewPager : ViewPager {
 
@@ -19,6 +20,7 @@ class WebViewPager : ViewPager {
     }
 
     internal var horizontalPageCount: Int = 0
+    internal var currentPageIndex: Int = 0
     private var folioWebView: FolioWebView? = null
     private var takeOverScrolling: Boolean = false
     var isScrolling: Boolean = false
@@ -68,6 +70,7 @@ class WebViewPager : ViewPager {
             }
 
             override fun onPageSelected(position: Int) {
+                currentPageIndex = position;
                 Log.v(LOG_TAG, "-> onPageSelected -> $position")
             }
 
@@ -93,6 +96,10 @@ class WebViewPager : ViewPager {
 
         if (folioWebView == null)
             folioWebView = (parent as View).findViewById(R.id.folioWebView)
+    }
+
+    fun getPageProgress(): String {
+        return "${currentPageIndex + 1}  / $horizontalPageCount";
     }
 
     @JavascriptInterface
