@@ -614,8 +614,9 @@ class FolioPageFragment : Fragment(),
         try {
             synchronized(this) {
                 mWebview!!.loadUrl(getString(R.string.callComputeLastReadCfi))
-                (this as java.lang.Object).wait(5000)
+//                (this as java.lang.Object).wait(5000)
             }
+            Log.v(LOG_TAG, "-> getLastReadLocator -> 2")
         } catch (e: InterruptedException) {
             Log.e(LOG_TAG, "-> ", e)
         }
@@ -625,7 +626,7 @@ class FolioPageFragment : Fragment(),
 
     @JavascriptInterface
     fun storeLastReadCfi(cfi: String) {
-
+        Log.v(LOG_TAG, "-> storeLastReadCfi -> 3")
         synchronized(this) {
             var href = spineItem.href
             if (href == null) href = ""
